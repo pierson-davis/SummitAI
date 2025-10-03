@@ -67,6 +67,22 @@ struct ChallengesView: View {
                 
                 Spacer()
                 
+                // Start new expedition button
+                Button(action: {
+                    expeditionManager.abandonExpedition()
+                }) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "mountain.2.fill")
+                        Text("New")
+                    }
+                    .font(.subheadline)
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .background(Color.orange.opacity(0.8))
+                    .cornerRadius(12)
+                }
+                
                 // Notifications
                 Button(action: {}) {
                     Image(systemName: "bell.fill")
@@ -224,7 +240,11 @@ struct ChallengesView: View {
     
     private func joinChallenge(_ challenge: Challenge) {
         var updatedChallenge = challenge
-        updatedChallenge.participants.append(userManager.currentUser?.id ?? UUID())
+        if let userId = userManager.currentUser?.id {
+            updatedChallenge.participants.append(UUID(uuidString: userId) ?? UUID())
+        } else {
+            updatedChallenge.participants.append(UUID())
+        }
         updatedChallenge.isActive = true
         
         activeChallenges.append(updatedChallenge)
@@ -424,7 +444,7 @@ struct ChallengeCard: View {
                     .font(.caption)
                     .fontWeight(.medium)
                     .foregroundColor(.white)
-            case .premiumDays(let days):
+            case .accessDays(let days):
                 Image(systemName: "crown.fill")
                     .foregroundColor(.yellow)
                 Text("\(days)d")

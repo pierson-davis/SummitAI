@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct OnboardingView: View {
+    @EnvironmentObject var userManager: UserManager
     @State private var currentPage = 0
     @State private var showingSignUp = false
     @State private var showingSignIn = false
@@ -90,6 +91,22 @@ struct OnboardingView: View {
                                 Text("Already have an account? Sign In")
                                     .font(.subheadline)
                                     .foregroundColor(.white.opacity(0.8))
+                            }
+                            
+                            // Skip Authentication button for testing
+                            Button(action: { 
+                                userManager.createMockUser()
+                            }) {
+                                HStack {
+                                    Image(systemName: "play.fill")
+                                    Text("Skip Authentication (Test Mode)")
+                                }
+                                .font(.subheadline)
+                                .foregroundColor(.white.opacity(0.7))
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 40)
+                                .background(Color.white.opacity(0.1))
+                                .cornerRadius(20)
                             }
                         }
                     } else {

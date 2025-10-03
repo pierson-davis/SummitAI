@@ -125,3 +125,4 @@ echo "4. Test the onboarding flow"
 echo "5. Grant HealthKit permissions when prompted"
 echo ""
 echo "Happy coding! 🏔️"
+

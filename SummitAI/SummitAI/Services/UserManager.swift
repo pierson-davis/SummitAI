@@ -63,9 +63,29 @@ class UserManager: ObservableObject {
         isLoading = true
         errorMessage = nil
         
-        // Simulate Apple Sign In
+        // For now, use mock authentication until Firebase is fully configured
+        // This will be replaced with real Apple Sign-In + Firebase integration
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
             let user = User(username: "apple_user", email: "user@icloud.com", displayName: "Apple User")
+            self?.currentUser = user
+            self?.isAuthenticated = true
+            self?.saveUserToStorage()
+            self?.isLoading = false
+        }
+    }
+    
+    func signInWithAppleFirebase(credential: Any) { // Temporarily simplified
+        isLoading = true
+        errorMessage = nil
+        
+        // For now, use mock authentication until Firebase is fully configured
+        // This will be replaced with real Firebase integration
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            let user = User(
+                username: "apple_user_\(UUID().uuidString.prefix(8))",
+                email: "user@icloud.com",
+                displayName: "Apple User"
+            )
             self?.currentUser = user
             self?.isAuthenticated = true
             self?.saveUserToStorage()
@@ -143,8 +163,8 @@ class UserManager: ObservableObject {
     func completeExpedition(_ mountainId: UUID) {
         guard var user = currentUser else { return }
         
-        if !user.completedExpeditions.contains(mountainId) {
-            user.completedExpeditions.append(mountainId)
+        if !user.completedExpeditions.contains(mountainId.uuidString) {
+            user.completedExpeditions.append(mountainId.uuidString)
             user.stats.totalExpeditionsCompleted += 1
             user.currentExpeditionId = nil
             
@@ -159,7 +179,7 @@ class UserManager: ObservableObject {
     func startExpedition(_ mountainId: UUID) {
         guard var user = currentUser else { return }
         
-        user.currentExpeditionId = mountainId
+        user.currentExpeditionId = mountainId.uuidString
         currentUser = user
         saveUserToStorage()
     }
@@ -207,35 +227,35 @@ class UserManager: ObservableObject {
         }
     }
     
-    // MARK: - Premium Features
+    // MARK: - Access Features
     
-    func purchasePremium(duration: PremiumDuration) {
+    func purchaseAccess(duration: AccessDuration) {
         guard var user = currentUser else { return }
         
-        user.isPremium = true
+        user.hasAccess = true
         
         let calendar = Calendar.current
         switch duration {
         case .monthly:
-            user.subscriptionExpiryDate = calendar.date(byAdding: .month, value: 1, to: Date())
+            user.accessExpiryDate = calendar.date(byAdding: .month, value: 1, to: Date())
         case .yearly:
-            user.subscriptionExpiryDate = calendar.date(byAdding: .year, value: 1, to: Date())
+            user.accessExpiryDate = calendar.date(byAdding: .year, value: 1, to: Date())
         }
         
         currentUser = user
         saveUserToStorage()
     }
     
-    func isPremiumActive() -> Bool {
+    func hasAccessActive() -> Bool {
         guard let user = currentUser,
-              let expiryDate = user.subscriptionExpiryDate else {
+              let expiryDate = user.accessExpiryDate else {
             return false
         }
         
-        return user.isPremium && expiryDate > Date()
+        return user.hasAccess && expiryDate > Date()
     }
     
-    enum PremiumDuration {
+    enum AccessDuration {
         case monthly
         case yearly
     }

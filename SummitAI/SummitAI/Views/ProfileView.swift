@@ -26,9 +26,9 @@ struct ProfileView: View {
                         // Stats overview
                         statsOverview
                         
-                        // Premium section
-                        if !userManager.isPremiumActive() {
-                            premiumSection
+                        // Access section
+                        if !userManager.hasAccessActive() {
+                            accessSection
                         }
                         
                         // Achievements
@@ -94,17 +94,17 @@ struct ProfileView: View {
                 
                 Spacer()
                 
-                // Premium badge
-                if userManager.isPremiumActive() {
+                // Access badge
+                if userManager.hasAccessActive() {
                     VStack(spacing: 4) {
-                        Image(systemName: "crown.fill")
+                        Image(systemName: "checkmark.circle.fill")
                             .font(.title2)
-                            .foregroundColor(.yellow)
+                            .foregroundColor(.green)
                         
-                        Text("Premium")
+                        Text("Full Access")
                             .font(.caption)
                             .fontWeight(.bold)
-                            .foregroundColor(.yellow)
+                            .foregroundColor(.green)
                     }
                 }
             }
@@ -169,20 +169,20 @@ struct ProfileView: View {
         .cornerRadius(16)
     }
     
-    private var premiumSection: some View {
+    private var accessSection: some View {
         VStack(spacing: 16) {
             HStack {
-                Image(systemName: "crown.fill")
+                Image(systemName: "lock.fill")
                     .font(.title2)
-                    .foregroundColor(.yellow)
+                    .foregroundColor(.orange)
                 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Unlock Premium Features")
+                    Text("Unlock Full Access")
                         .font(.headline)
                         .fontWeight(.bold)
                         .foregroundColor(.white)
                     
-                    Text("Access all expeditions, AI coaching, and more")
+                    Text("Access all expeditions and features after onboarding")
                         .font(.subheadline)
                         .foregroundColor(.white.opacity(0.8))
                 }
@@ -190,7 +190,7 @@ struct ProfileView: View {
                 Spacer()
                 
                 Button(action: {}) {
-                    Text("Upgrade")
+                    Text("Unlock")
                         .font(.subheadline)
                         .fontWeight(.semibold)
                         .foregroundColor(.white)
@@ -202,11 +202,11 @@ struct ProfileView: View {
             }
         }
         .padding()
-        .background(Color.yellow.opacity(0.1))
+        .background(Color.orange.opacity(0.1))
         .cornerRadius(16)
         .overlay(
             RoundedRectangle(cornerRadius: 16)
-                .stroke(Color.yellow.opacity(0.3), lineWidth: 1)
+                .stroke(Color.orange.opacity(0.3), lineWidth: 1)
         )
     }
     
@@ -311,6 +311,17 @@ struct ProfileView: View {
             }
             
             VStack(spacing: 0) {
+                SettingsRow(
+                    icon: "mountain.2.fill",
+                    title: "Start New Expedition",
+                    action: {
+                        expeditionManager.abandonExpedition()
+                    }
+                )
+                
+                Divider()
+                    .background(Color.white.opacity(0.2))
+                
                 SettingsRow(
                     icon: "gearshape.fill",
                     title: "Account Settings",
@@ -626,7 +637,7 @@ struct SummitVerseView: View {
                 ForEach(Mountain.allMountains) { mountain in
                     MountainCollectionCard(
                         mountain: mountain,
-                        isConquered: userManager.currentUser?.completedExpeditions.contains(mountain.id) ?? false
+                        isConquered: userManager.currentUser?.completedExpeditions.contains(mountain.id.uuidString) ?? false
                     )
                 }
             }

@@ -65,6 +65,22 @@ struct CommunityView: View {
                 
                 Spacer()
                 
+                // Start new expedition button
+                Button(action: {
+                    expeditionManager.abandonExpedition()
+                }) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "mountain.2.fill")
+                        Text("New")
+                    }
+                    .font(.subheadline)
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .background(Color.orange.opacity(0.8))
+                    .cornerRadius(12)
+                }
+                
                 // Create squad button
                 Button(action: {}) {
                     Image(systemName: "person.badge.plus")
@@ -280,7 +296,7 @@ struct CommunityView: View {
             Squad(
                 name: "Summit Seekers",
                 description: "A group of passionate climbers exploring the world's highest peaks",
-                leaderId: userManager.currentUser?.id ?? UUID()
+                leaderId: UUID(uuidString: userManager.currentUser?.id ?? "") ?? UUID()
             ),
             Squad(
                 name: "Weekend Warriors",
@@ -716,3 +732,4 @@ struct LeaderboardEntry: Identifiable {
         .environmentObject(UserManager())
         .environmentObject(ExpeditionManager())
 }
+

@@ -1,4 +1,5 @@
 import SwiftUI
+import AuthenticationServices
 
 struct SignUpView: View {
     @EnvironmentObject var userManager: UserManager
@@ -111,21 +112,20 @@ struct SignUpView: View {
                         
                         // Social sign up buttons
                         VStack(spacing: 12) {
-                            Button(action: signUpWithApple) {
+                            Button(action: {
+                                userManager.signInWithApple()
+                            }) {
                                 HStack {
                                     Image(systemName: "applelogo")
-                                    Text("Continue with Apple")
+                                        .font(.title2)
+                                    Text("Sign in with Apple")
+                                        .fontWeight(.semibold)
                                 }
-                                .font(.headline)
                                 .foregroundColor(.white)
                                 .frame(maxWidth: .infinity)
                                 .frame(height: 50)
                                 .background(Color.black)
                                 .cornerRadius(25)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 25)
-                                        .stroke(Color.white.opacity(0.2), lineWidth: 1)
-                                )
                             }
                             
                             Button(action: signUpWithGoogle) {
@@ -287,21 +287,20 @@ struct SignInView: View {
                         
                         // Social sign in buttons
                         VStack(spacing: 12) {
-                            Button(action: signInWithApple) {
+                            Button(action: {
+                                userManager.signInWithApple()
+                            }) {
                                 HStack {
                                     Image(systemName: "applelogo")
-                                    Text("Continue with Apple")
+                                        .font(.title2)
+                                    Text("Sign in with Apple")
+                                        .fontWeight(.semibold)
                                 }
-                                .font(.headline)
                                 .foregroundColor(.white)
                                 .frame(maxWidth: .infinity)
                                 .frame(height: 50)
                                 .background(Color.black)
                                 .cornerRadius(25)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 25)
-                                        .stroke(Color.white.opacity(0.2), lineWidth: 1)
-                                )
                             }
                             
                             Button(action: signInWithGoogle) {

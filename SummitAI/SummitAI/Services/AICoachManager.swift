@@ -7,6 +7,13 @@ class AICoachManager: ObservableObject {
     @Published var currentPlan: TrainingPlan?
     @Published var errorMessage: String?
     
+    // Advanced AI features
+    @Published var personalizedRecommendations: [AIRecommendation] = []
+    @Published var motivationalMessages: [MotivationalMessage] = []
+    @Published var generatedContent: [GeneratedContent] = []
+    @Published var fitnessInsights: [FitnessInsight] = []
+    @Published var adaptiveGoals: [AdaptiveGoal] = []
+    
     private var cancellables = Set<AnyCancellable>()
     
     init() {
@@ -90,7 +97,7 @@ class AICoachManager: ObservableObject {
         )
     }
     
-    private func generateEnduranceExercises(duration: Double, intensity: WorkoutIntensity) -> [Exercise] {
+    private func generateEnduranceExercises(duration: Double, intensity: AIWorkoutIntensity) -> [Exercise] {
         return [
             Exercise(
                 name: "Cardio Base",
@@ -115,7 +122,7 @@ class AICoachManager: ObservableObject {
         ]
     }
     
-    private func generateStrengthExercises(duration: Double, intensity: WorkoutIntensity) -> [Exercise] {
+    private func generateStrengthExercises(duration: Double, intensity: AIWorkoutIntensity) -> [Exercise] {
         return [
             Exercise(
                 name: "Push-ups",
@@ -150,7 +157,7 @@ class AICoachManager: ObservableObject {
         ]
     }
     
-    private func generateClimbingExercises(duration: Double, intensity: WorkoutIntensity) -> [Exercise] {
+    private func generateClimbingExercises(duration: Double, intensity: AIWorkoutIntensity) -> [Exercise] {
         return [
             Exercise(
                 name: "Hang Board Training",
@@ -185,8 +192,8 @@ class AICoachManager: ObservableObject {
         ]
     }
     
-    private func calculateIntensity(for week: Int, totalWeeks: Int, difficulty: DifficultyLevel) -> WorkoutIntensity {
-        let baseIntensity: WorkoutIntensity
+    private func calculateIntensity(for week: Int, totalWeeks: Int, difficulty: DifficultyLevel) -> AIWorkoutIntensity {
+        let baseIntensity: AIWorkoutIntensity
         
         switch difficulty {
         case .beginner:
@@ -216,7 +223,7 @@ class AICoachManager: ObservableObject {
         return week <= 4 ? 2 : 1
     }
     
-    private func generateWorkoutNotes(week: Int, intensity: WorkoutIntensity) -> [String] {
+    private func generateWorkoutNotes(week: Int, intensity: AIWorkoutIntensity) -> [String] {
         var notes: [String] = []
         
         if week <= 2 {
@@ -267,6 +274,403 @@ class AICoachManager: ObservableObject {
     private func loadTrainingPlans() {
         // Load any saved training plans
         // For now, we'll start with an empty array
+    }
+    
+    // MARK: - Advanced AI Features
+    
+    func generatePersonalizedRecommendations(for user: User, healthData: HealthKitManager) {
+        var recommendations: [AIRecommendation] = []
+        
+        // Analyze user's fitness level and generate recommendations
+        let fitnessLevel = getUserLevel(user)
+        let recentActivity = analyzeRecentActivity(healthData: healthData)
+        
+        // Step-based recommendations
+        if healthData.todaySteps < 5000 {
+            recommendations.append(AIRecommendation(
+                type: .activity,
+                title: "Increase Daily Steps",
+                message: "Try to reach 8,000 steps today. Take a 10-minute walk every 2 hours.",
+                priority: .high,
+                actionType: .workout,
+                estimatedTime: 30
+            ))
+        } else if healthData.todaySteps > 15000 {
+            recommendations.append(AIRecommendation(
+                type: .achievement,
+                title: "Excellent Activity Level!",
+                message: "You're crushing your step goals! Consider adding some strength training.",
+                priority: .medium,
+                actionType: .strength,
+                estimatedTime: 20
+            ))
+        }
+        
+        // Sleep quality recommendations
+        if let sleepData = healthData.sleepData, sleepData.quality < 0.6 {
+            recommendations.append(AIRecommendation(
+                type: .recovery,
+                title: "Improve Sleep Quality",
+                message: "Your sleep quality is below average. Try a bedtime routine with no screens 1 hour before bed.",
+                priority: .high,
+                actionType: .recovery,
+                estimatedTime: 0
+            ))
+        }
+        
+        // Workout intensity recommendations
+        switch healthData.workoutIntensity {
+        case .low:
+            recommendations.append(AIRecommendation(
+                type: .challenge,
+                title: "Increase Workout Intensity",
+                message: "Try adding some high-intensity intervals to your next workout.",
+                priority: .medium,
+                actionType: .workout,
+                estimatedTime: 15
+            ))
+        case .high:
+            recommendations.append(AIRecommendation(
+                type: .recovery,
+                title: "Focus on Recovery",
+                message: "You've been pushing hard! Consider a light recovery day or stretching session.",
+                priority: .medium,
+                actionType: .recovery,
+                estimatedTime: 20
+            ))
+        case .moderate:
+            break // Good balance
+        }
+        
+        // Mountain-specific recommendations
+        if let expedition = expeditionManager?.currentExpedition {
+            let progress = expeditionManager?.getExpeditionProgress() ?? 0.0
+            if progress < 0.3 {
+                recommendations.append(AIRecommendation(
+                    type: .motivation,
+                    title: "Start Your Mountain Journey",
+                    message: "Every step counts! Focus on building a consistent daily routine.",
+                    priority: .high,
+                    actionType: .motivation,
+                    estimatedTime: 0
+                ))
+            } else if progress > 0.8 {
+                recommendations.append(AIRecommendation(
+                    type: .achievement,
+                    title: "Summit Push!",
+                    message: "You're so close to the summit! Maintain your current pace and you'll reach the top soon.",
+                    priority: .high,
+                    actionType: .motivation,
+                    estimatedTime: 0
+                ))
+            }
+        }
+        
+        personalizedRecommendations = recommendations
+    }
+    
+    func generateMotivationalMessages(for user: User, healthData: HealthKitManager) {
+        var messages: [MotivationalMessage] = []
+        
+        let timeOfDay = getTimeOfDay()
+        let userProgress = calculateUserProgress(user: user, healthData: healthData)
+        
+        // Time-based messages
+        switch timeOfDay {
+        case .morning:
+            messages.append(MotivationalMessage(
+                text: "Good morning, \(user.displayName)! Today is a new opportunity to climb higher. Let's make it count!",
+                type: .morning,
+                emoji: "🌅"
+            ))
+        case .afternoon:
+            messages.append(MotivationalMessage(
+                text: "Keep pushing forward! Every step you take brings you closer to your mountain summit.",
+                type: .afternoon,
+                emoji: "💪"
+            ))
+        case .evening:
+            messages.append(MotivationalMessage(
+                text: "Great work today! Your dedication is building the strength you need for the summit.",
+                type: .evening,
+                emoji: "🏔️"
+            ))
+        }
+        
+        // Progress-based messages
+        if userProgress.streakDays >= 7 {
+            messages.append(MotivationalMessage(
+                text: "Amazing! You've maintained your streak for \(userProgress.streakDays) days. Consistency is key to reaching the summit!",
+                type: .achievement,
+                emoji: "🔥"
+            ))
+        }
+        
+        if userProgress.weeklySteps > 50000 {
+            messages.append(MotivationalMessage(
+                text: "Incredible! You've walked over 50,000 steps this week. Your mountain legs are getting stronger!",
+                type: .achievement,
+                emoji: "🚶‍♂️"
+            ))
+        }
+        
+        // Challenge messages
+        if userProgress.daysSinceLastWorkout > 2 {
+            messages.append(MotivationalMessage(
+                text: "Ready for a challenge? Your mountain is waiting for you to take the next step!",
+                type: .challenge,
+                emoji: "⛰️"
+            ))
+        }
+        
+        motivationalMessages = messages
+    }
+    
+    func generateContent(for user: User, healthData: HealthKitManager) {
+        var content: [GeneratedContent] = []
+        
+        // Achievement content
+        if let expedition = expeditionManager?.currentExpedition,
+           let mountain = expeditionManager?.getMountain(by: expedition.mountainId) {
+            let progress = expeditionManager?.getExpeditionProgress() ?? 0.0
+            
+            if progress > 0.5 {
+                content.append(GeneratedContent(
+                    type: .achievement,
+                    title: "Halfway to \(mountain.name) Summit!",
+                    description: "You've reached the halfway point of your \(mountain.name) expedition. Keep climbing!",
+                    imageTemplate: "mountain_halfway",
+                    shareText: "Just reached the halfway point of my \(mountain.name) expedition! 🏔️ #SummitAI #MountainClimbing",
+                    hashtags: ["#SummitAI", "#MountainClimbing", "#Fitness", "#Adventure"]
+                ))
+            }
+            
+            if progress >= 1.0 {
+                content.append(GeneratedContent(
+                    type: .summit,
+                    title: "Summit Conquered!",
+                    description: "Congratulations! You've successfully reached the summit of \(mountain.name)!",
+                    imageTemplate: "summit_celebration",
+                    shareText: "I just conquered \(mountain.name)! 🏔️✨ The view from the top is incredible! #SummitAI #SummitConquered",
+                    hashtags: ["#SummitAI", "#SummitConquered", "#MountainClimbing", "#Achievement"]
+                ))
+            }
+        }
+        
+        // Weekly progress content
+        let weeklySteps = healthData.weeklyTrends.averageSteps
+        if weeklySteps > 8000 {
+            content.append(GeneratedContent(
+                type: .progress,
+                title: "Weekly Progress Report",
+                description: "You averaged \(Int(weeklySteps)) steps per day this week. Amazing consistency!",
+                imageTemplate: "weekly_progress",
+                shareText: "Crushed my weekly step goal with an average of \(Int(weeklySteps)) steps per day! 📈 #SummitAI #FitnessGoals",
+                hashtags: ["#SummitAI", "#FitnessGoals", "#Steps", "#Progress"]
+            ))
+        }
+        
+        // Workout intensity content
+        if healthData.workoutIntensity == .high {
+            content.append(GeneratedContent(
+                type: .workout,
+                title: "High Intensity Champion!",
+                description: "You're pushing your limits with high-intensity workouts. Your mountain training is paying off!",
+                imageTemplate: "high_intensity",
+                shareText: "Just completed an intense workout session! My mountain training is getting stronger! 💪 #SummitAI #HighIntensity",
+                hashtags: ["#SummitAI", "#HighIntensity", "#Workout", "#Fitness"]
+            ))
+        }
+        
+        generatedContent = content
+    }
+    
+    func generateFitnessInsights(for user: User, healthData: HealthKitManager) {
+        var insights: [FitnessInsight] = []
+        
+        // Step trend analysis
+        let weeklyTrend = healthData.weeklyTrends
+        if weeklyTrend.averageSteps > weeklyTrend.averageSteps * 1.1 {
+            insights.append(FitnessInsight(
+                type: .positive,
+                title: "Step Count Trending Up!",
+                description: "Your daily step count has increased by 10% this week. Great momentum!",
+                icon: "arrow.up.circle.fill",
+                color: .green
+            ))
+        } else if weeklyTrend.averageSteps < weeklyTrend.averageSteps * 0.9 {
+            insights.append(FitnessInsight(
+                type: .warning,
+                title: "Step Count Declining",
+                description: "Your daily step count has decreased this week. Try to maintain consistency.",
+                icon: "arrow.down.circle.fill",
+                color: .orange
+            ))
+        }
+        
+        // Sleep quality insights
+        if let sleepData = healthData.sleepData {
+            if sleepData.quality > 0.8 {
+                insights.append(FitnessInsight(
+                    type: .positive,
+                    title: "Excellent Sleep Quality",
+                    description: "Your sleep quality is excellent! This will help with your mountain training.",
+                    icon: "moon.zzz.fill",
+                    color: .blue
+                ))
+            } else if sleepData.quality < 0.5 {
+                insights.append(FitnessInsight(
+                    type: .warning,
+                    title: "Sleep Quality Needs Attention",
+                    description: "Poor sleep quality can affect your training performance. Consider improving your sleep routine.",
+                    icon: "moon.zzz",
+                    color: .red
+                ))
+            }
+        }
+        
+        // Workout consistency insights
+        let workoutCount = healthData.todayWorkouts.count
+        if workoutCount >= 3 {
+            insights.append(FitnessInsight(
+                type: .positive,
+                title: "Workout Consistency",
+                description: "You've completed \(workoutCount) workouts today. Excellent dedication!",
+                icon: "dumbbell.fill",
+                color: .green
+            ))
+        }
+        
+        fitnessInsights = insights
+    }
+    
+    func createAdaptiveGoals(for user: User, healthData: HealthKitManager) {
+        var goals: [AdaptiveGoal] = []
+        
+        let currentLevel = getUserLevel(user)
+        let recentPerformance = analyzeRecentActivity(healthData: healthData)
+        
+        // Adaptive step goal
+        let currentStepGoal = 10000
+        let adaptiveStepGoal = Int(Double(currentStepGoal) * recentPerformance.stepMultiplier)
+        
+        goals.append(AdaptiveGoal(
+            type: .steps,
+            title: "Daily Steps",
+            target: adaptiveStepGoal,
+            current: healthData.todaySteps,
+            description: "Adaptive step goal based on your recent performance",
+            difficulty: currentLevel
+        ))
+        
+        // Adaptive workout goal
+        let workoutGoal = currentLevel == .beginner ? 3 : (currentLevel == .intermediate ? 4 : 5)
+        goals.append(AdaptiveGoal(
+            type: .workouts,
+            title: "Weekly Workouts",
+            target: workoutGoal,
+            current: healthData.weeklyTrends.totalWorkouts,
+            description: "Weekly workout target adjusted for your fitness level",
+            difficulty: currentLevel
+        ))
+        
+        // Mountain progress goal
+        if let expedition = expeditionManager?.currentExpedition {
+            let progress = expeditionManager?.getExpeditionProgress() ?? 0.0
+            let nextMilestone = Int(progress * 100) + 10
+            goals.append(AdaptiveGoal(
+                type: .mountain,
+                title: "Mountain Progress",
+                target: nextMilestone,
+                current: Int(progress * 100),
+                description: "Reach \(nextMilestone)% completion of your current expedition",
+                difficulty: currentLevel
+            ))
+        }
+        
+        adaptiveGoals = goals
+    }
+    
+    // MARK: - Helper Methods
+    
+    private func convertToAIWorkoutIntensity(_ intensity: WorkoutIntensity) -> AIWorkoutIntensity {
+        switch intensity {
+        case .low:
+            return .low
+        case .moderate:
+            return .moderate
+        case .high:
+            return .high
+        }
+    }
+    
+    private func analyzeRecentActivity(healthData: HealthKitManager) -> ActivityAnalysis {
+        let weeklyTrend = healthData.weeklyTrends
+        let stepMultiplier = min(1.5, max(0.5, weeklyTrend.averageSteps / 8000.0))
+        
+        return ActivityAnalysis(
+            stepMultiplier: stepMultiplier,
+            consistencyScore: calculateConsistencyScore(healthData: healthData),
+            intensityTrend: convertToAIWorkoutIntensity(healthData.workoutIntensity)
+        )
+    }
+    
+    private func calculateConsistencyScore(healthData: HealthKitManager) -> Double {
+        let weeklyTrend = healthData.weeklyTrends
+        let dailyData = weeklyTrend.dailyData
+        
+        guard dailyData.count >= 3 else { return 0.5 }
+        
+        let stepVariance = calculateVariance(values: dailyData.map { Double($0.steps) })
+        let averageSteps = dailyData.map { Double($0.steps) }.reduce(0, +) / Double(dailyData.count)
+        
+        // Lower variance = higher consistency
+        let consistencyScore = max(0.0, min(1.0, 1.0 - (stepVariance / averageSteps)))
+        return consistencyScore
+    }
+    
+    private func calculateVariance(values: [Double]) -> Double {
+        guard values.count > 1 else { return 0.0 }
+        
+        let mean = values.reduce(0, +) / Double(values.count)
+        let squaredDifferences = values.map { pow($0 - mean, 2) }
+        return squaredDifferences.reduce(0, +) / Double(values.count)
+    }
+    
+    private func getTimeOfDay() -> TimeOfDay {
+        let hour = Calendar.current.component(.hour, from: Date())
+        switch hour {
+        case 5..<12:
+            return .morning
+        case 12..<17:
+            return .afternoon
+        default:
+            return .evening
+        }
+    }
+    
+    private func calculateUserProgress(user: User, healthData: HealthKitManager) -> UserProgress {
+        let weeklyTrend = healthData.weeklyTrends
+        
+        return UserProgress(
+            streakDays: user.streakCount,
+            weeklySteps: Int(weeklyTrend.averageSteps * 7),
+            daysSinceLastWorkout: calculateDaysSinceLastWorkout(healthData: healthData),
+            totalExpeditions: user.completedExpeditions.count
+        )
+    }
+    
+    private func calculateDaysSinceLastWorkout(healthData: HealthKitManager) -> Int {
+        // This would be calculated based on actual workout history
+        // For now, return a mock value
+        return healthData.todayWorkouts.isEmpty ? 1 : 0
+    }
+    
+    // MARK: - Dependencies
+    private weak var expeditionManager: ExpeditionManager?
+    
+    func setExpeditionManager(_ manager: ExpeditionManager) {
+        self.expeditionManager = manager
     }
 }
 
@@ -332,11 +736,11 @@ struct Exercise: Identifiable, Codable {
     let sets: Int
     let reps: Int?
     let restTime: Double // in seconds
-    let intensity: WorkoutIntensity
+    let intensity: AIWorkoutIntensity
     let type: ExerciseType
     var isCompleted: Bool = false
     
-    init(name: String, description: String, duration: Double, sets: Int, reps: Int? = nil, restTime: Double, intensity: WorkoutIntensity, type: ExerciseType) {
+    init(name: String, description: String, duration: Double, sets: Int, reps: Int? = nil, restTime: Double, intensity: AIWorkoutIntensity, type: ExerciseType) {
         self.id = UUID()
         self.name = name
         self.description = description
@@ -398,7 +802,7 @@ enum DifficultyLevel: String, CaseIterable, Codable {
     }
 }
 
-enum WorkoutIntensity: String, CaseIterable, Codable {
+enum AIWorkoutIntensity: String, CaseIterable, Codable {
     case low = "Low"
     case moderate = "Moderate"
     case high = "High"
@@ -422,4 +826,125 @@ enum ExerciseType: String, CaseIterable, Codable {
     case interval = "Interval"
     case flexibility = "Flexibility"
     case balance = "Balance"
+}
+
+// MARK: - Advanced AI Models
+
+struct AIRecommendation: Identifiable {
+    let id = UUID()
+    let type: RecommendationType
+    let title: String
+    let message: String
+    let priority: Priority
+    let actionType: ActionType
+    let estimatedTime: Int // in minutes
+    
+    enum RecommendationType {
+        case activity
+        case recovery
+        case challenge
+        case achievement
+        case motivation
+    }
+    
+    enum Priority {
+        case low
+        case medium
+        case high
+    }
+    
+    enum ActionType {
+        case workout
+        case strength
+        case recovery
+        case motivation
+    }
+}
+
+struct MotivationalMessage: Identifiable {
+    let id = UUID()
+    let text: String
+    let type: MessageType
+    let emoji: String
+    
+    enum MessageType {
+        case morning
+        case afternoon
+        case evening
+        case achievement
+        case challenge
+    }
+}
+
+struct GeneratedContent: Identifiable {
+    let id = UUID()
+    let type: ContentType
+    let title: String
+    let description: String
+    let imageTemplate: String
+    let shareText: String
+    let hashtags: [String]
+    
+    enum ContentType {
+        case achievement
+        case summit
+        case progress
+        case workout
+    }
+}
+
+struct FitnessInsight: Identifiable {
+    let id = UUID()
+    let type: InsightType
+    let title: String
+    let description: String
+    let icon: String
+    let color: Color
+    
+    enum InsightType {
+        case positive
+        case warning
+        case info
+    }
+}
+
+struct AdaptiveGoal: Identifiable {
+    let id = UUID()
+    let type: GoalType
+    let title: String
+    let target: Int
+    let current: Int
+    let description: String
+    let difficulty: DifficultyLevel
+    
+    enum GoalType {
+        case steps
+        case workouts
+        case mountain
+    }
+    
+    var progress: Double {
+        return Double(current) / Double(target)
+    }
+}
+
+// MARK: - Helper Models
+
+struct ActivityAnalysis {
+    let stepMultiplier: Double
+    let consistencyScore: Double
+    let intensityTrend: AIWorkoutIntensity
+}
+
+struct UserProgress {
+    let streakDays: Int
+    let weeklySteps: Int
+    let daysSinceLastWorkout: Int
+    let totalExpeditions: Int
+}
+
+enum TimeOfDay {
+    case morning
+    case afternoon
+    case evening
 }

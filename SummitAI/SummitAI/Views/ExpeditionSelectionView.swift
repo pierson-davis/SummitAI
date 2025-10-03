@@ -4,7 +4,7 @@ struct ExpeditionSelectionView: View {
     @EnvironmentObject var expeditionManager: ExpeditionManager
     @EnvironmentObject var userManager: UserManager
     @State private var selectedMountain: Mountain?
-    @State private var showingPremiumUpgrade = false
+    @State private var showingAccessUpgrade = false
     
     var body: some View {
         ZStack {
@@ -45,10 +45,10 @@ struct ExpeditionSelectionView: View {
                             MountainCard(
                                 mountain: mountain,
                                 isSelected: selectedMountain?.id == mountain.id,
-                                isPremium: mountain.isPremium && !userManager.isPremiumActive(),
+                                isPaywalled: mountain.isPaywalled && !userManager.hasAccessActive(),
                                 onTap: {
-                                    if mountain.isPremium && !userManager.isPremiumActive() {
-                                        showingPremiumUpgrade = true
+                                    if mountain.isPaywalled && !userManager.hasAccessActive() {
+                                        showingAccessUpgrade = true
                                     } else {
                                         selectedMountain = mountain
                                     }
@@ -80,8 +80,8 @@ struct ExpeditionSelectionView: View {
                 }
             }
         }
-        .sheet(isPresented: $showingPremiumUpgrade) {
-            PremiumUpgradeView()
+        .sheet(isPresented: $showingAccessUpgrade) {
+            AccessUpgradeView()
         }
     }
     
@@ -92,15 +92,17 @@ struct ExpeditionSelectionView: View {
     private func startExpedition() {
         guard let mountain = selectedMountain else { return }
         
+        print("ExpeditionSelectionView: Starting expedition for \(mountain.name)")
         expeditionManager.startExpedition(for: mountain)
         userManager.startExpedition(mountain.id)
+        print("ExpeditionSelectionView: Expedition started - currentExpedition: \(expeditionManager.currentExpedition != nil)")
     }
 }
 
 struct MountainCard: View {
     let mountain: Mountain
     let isSelected: Bool
-    let isPremium: Bool
+    let isPaywalled: Bool
     let onTap: () -> Void
     
     var body: some View {
@@ -121,12 +123,12 @@ struct MountainCard: View {
                             .font(.system(size: 40))
                             .foregroundColor(.white)
                         
-                        if isPremium {
+                        if isPaywalled {
                             VStack {
-                                Image(systemName: "crown.fill")
+                                Image(systemName: "lock.fill")
                                     .font(.title2)
                                     .foregroundColor(.yellow)
-                                Text("Premium")
+                                Text("Paywalled")
                                     .font(.caption)
                                     .fontWeight(.bold)
                                     .foregroundColor(.yellow)
@@ -182,7 +184,7 @@ struct MountainCard: View {
     }
 }
 
-struct PremiumUpgradeView: View {
+struct AccessUpgradeView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var userManager: UserManager
     
@@ -204,12 +206,12 @@ struct PremiumUpgradeView: View {
                             .font(.system(size: 60))
                             .foregroundColor(.yellow)
                         
-                        Text("Upgrade to Premium")
+                        Text("Unlock Full Access")
                             .font(.largeTitle)
                             .fontWeight(.bold)
                             .foregroundColor(.white)
                         
-                        Text("Unlock all expeditions and premium features")
+                        Text("Unlock all expeditions and features after onboarding")
                             .font(.subheadline)
                             .foregroundColor(.white.opacity(0.8))
                             .multilineTextAlignment(.center)
@@ -218,31 +220,31 @@ struct PremiumUpgradeView: View {
                     
                     // Features list
                     VStack(spacing: 16) {
-                        PremiumFeatureRow(
+                        AccessFeatureRow(
                             icon: "mountain.2.fill",
                             title: "All Expeditions",
                             description: "Access to Everest, K2, El Capitan, and more"
                         )
                         
-                        PremiumFeatureRow(
+                        AccessFeatureRow(
                             icon: "brain.head.profile",
                             title: "Advanced AI Coaching",
                             description: "Detailed form analysis and personalized training plans"
                         )
                         
-                        PremiumFeatureRow(
+                        AccessFeatureRow(
                             icon: "video.fill",
                             title: "Premium Reels Templates",
                             description: "Cinematic templates and AI narrations"
                         )
                         
-                        PremiumFeatureRow(
+                        AccessFeatureRow(
                             icon: "person.3.fill",
                             title: "Squad Creation",
                             description: "Create and manage your own expedition squads"
                         )
                         
-                        PremiumFeatureRow(
+                        AccessFeatureRow(
                             icon: "star.fill",
                             title: "SummitVerse Access",
                             description: "Unlock rare peaks and avatar customization"
@@ -254,24 +256,24 @@ struct PremiumUpgradeView: View {
                     
                     // Pricing options
                     VStack(spacing: 16) {
-                        PremiumPricingCard(
+                        AccessPricingCard(
                             title: "Monthly",
                             price: "$4.99",
                             period: "month",
                             isPopular: false,
                             onSelect: {
-                                userManager.purchasePremium(duration: .monthly)
+                                userManager.purchaseAccess(duration: .monthly)
                                 dismiss()
                             }
                         )
                         
-                        PremiumPricingCard(
+                        AccessPricingCard(
                             title: "Yearly",
                             price: "$49.99",
                             period: "year",
                             isPopular: true,
                             onSelect: {
-                                userManager.purchasePremium(duration: .yearly)
+                                userManager.purchaseAccess(duration: .yearly)
                                 dismiss()
                             }
                         )
@@ -292,7 +294,7 @@ struct PremiumUpgradeView: View {
     }
 }
 
-struct PremiumFeatureRow: View {
+struct AccessFeatureRow: View {
     let icon: String
     let title: String
     let description: String
@@ -322,7 +324,7 @@ struct PremiumFeatureRow: View {
     }
 }
 
-struct PremiumPricingCard: View {
+struct AccessPricingCard: View {
     let title: String
     let price: String
     let period: String
@@ -384,3 +386,4 @@ struct PremiumPricingCard: View {
         .environmentObject(ExpeditionManager())
         .environmentObject(UserManager())
 }
+

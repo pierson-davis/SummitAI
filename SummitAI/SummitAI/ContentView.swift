@@ -21,12 +21,18 @@ struct ContentView: View {
                 Spacer()
                 HStack {
                     Spacer()
-                    Text("Auth: \(userManager.isAuthenticated ? "Yes" : "No")")
-                        .font(.caption)
-                        .padding(8)
-                        .background(Color.black.opacity(0.7))
-                        .foregroundColor(.white)
-                        .cornerRadius(4)
+                    VStack(spacing: 4) {
+                        Text("Auth: \(userManager.isAuthenticated ? "Yes" : "No")")
+                            .font(.caption)
+                        Text("Expedition: \(expeditionManager.currentExpedition != nil ? "Yes" : "No")")
+                            .font(.caption)
+                        Text("Mountains: \(expeditionManager.availableMountains.count)")
+                            .font(.caption)
+                    }
+                    .padding(8)
+                    .background(Color.black.opacity(0.7))
+                    .foregroundColor(.white)
+                    .cornerRadius(4)
                     Spacer()
                 }
                 .padding(.bottom, 50)
@@ -55,7 +61,7 @@ struct MainTabView: View {
             
             ChallengesView()
                 .tabItem {
-                    Image(systemName: "flame.fill")
+                    Image(systemName: "star.fill")
                     Text("Challenges")
                 }
             

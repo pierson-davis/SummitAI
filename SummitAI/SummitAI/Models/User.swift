@@ -3,18 +3,18 @@ import SwiftUI
 
 // MARK: - User Model
 struct User: Identifiable, Codable {
-    let id: UUID
+    let id: String // Changed to String for Firestore compatibility
     var username: String
     var email: String
     var displayName: String
     var avatarURL: String?
     var joinDate: Date
-    var isPremium: Bool
-    var subscriptionExpiryDate: Date?
+    var hasAccess: Bool
+    var accessExpiryDate: Date?
     var totalSteps: Int
     var totalElevation: Double
-    var completedExpeditions: [UUID] // Mountain IDs
-    var currentExpeditionId: UUID?
+    var completedExpeditions: [String] // Mountain IDs as strings for Firestore
+    var currentExpeditionId: String?
     var streakCount: Int
     var lastActivityDate: Date
     var badges: [Badge]
@@ -22,14 +22,14 @@ struct User: Identifiable, Codable {
     var stats: UserStats
     
     init(username: String, email: String, displayName: String) {
-        self.id = UUID()
+        self.id = UUID().uuidString
         self.username = username
         self.email = email
         self.displayName = displayName
         self.avatarURL = nil
         self.joinDate = Date()
-        self.isPremium = false
-        self.subscriptionExpiryDate = nil
+        self.hasAccess = false
+        self.accessExpiryDate = nil
         self.totalSteps = 0
         self.totalElevation = 0
         self.completedExpeditions = []
@@ -40,6 +40,11 @@ struct User: Identifiable, Codable {
         self.achievements = []
         self.stats = UserStats()
     }
+    
+    // MARK: - Firestore Compatibility (will be implemented later)
+    // init(from document: DocumentSnapshot) throws {
+    //     // Implementation will be added when Firebase is properly configured
+    // }
 }
 
 // MARK: - User Stats Model
@@ -62,6 +67,17 @@ struct UserStats: Codable {
         self.averageDailySteps = 0
         self.totalExpeditionsCompleted = 0
         self.totalTimeSpent = 0
+    }
+    
+    init(totalWorkouts: Int, totalDistance: Double, totalCaloriesBurned: Double, longestStreak: Int, averageDailySteps: Int, totalExpeditionsCompleted: Int, totalTimeSpent: TimeInterval) {
+        self.totalWorkouts = totalWorkouts
+        self.totalDistance = totalDistance
+        self.totalCaloriesBurned = totalCaloriesBurned
+        self.longestStreak = longestStreak
+        self.favoriteWorkoutType = nil
+        self.averageDailySteps = averageDailySteps
+        self.totalExpeditionsCompleted = totalExpeditionsCompleted
+        self.totalTimeSpent = totalTimeSpent
     }
 }
 
@@ -156,7 +172,7 @@ struct Achievement: Identifiable, Codable {
     enum AchievementReward: Codable {
         case badge(Badge)
         case points(Int)
-        case premiumDays(Int)
+        case accessDays(Int)
         case custom(String)
     }
 }
@@ -270,7 +286,7 @@ struct Challenge: Identifiable, Codable {
     enum ChallengeReward: Codable, Hashable {
         case points(Int)
         case badge(Badge)
-        case premiumDays(Int)
+        case accessDays(Int)
         case custom(String)
     }
 }
