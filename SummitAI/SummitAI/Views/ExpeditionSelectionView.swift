@@ -8,31 +8,97 @@ struct ExpeditionSelectionView: View {
     
     var body: some View {
         ZStack {
-            // Background
-            LinearGradient(
-                gradient: Gradient(colors: [Color.black, Color.gray.opacity(0.8)]),
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
+            // Everest-inspired background with atmospheric effects
+            ZStack {
+                // Base gradient - ice and storm
+                LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color(red: 0.1, green: 0.15, blue: 0.25), // Deep storm blue
+                        Color(red: 0.05, green: 0.1, blue: 0.2),   // Midnight blue
+                        Color(red: 0.02, green: 0.05, blue: 0.1)   // Deep black
+                    ]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                
+                // Atmospheric overlay - snow and ice particles
+                ForEach(0..<30, id: \.self) { _ in
+                    Circle()
+                        .fill(Color.white.opacity(0.1))
+                        .frame(width: CGFloat.random(in: 1...4))
+                        .position(
+                            x: CGFloat.random(in: 0...UIScreen.main.bounds.width),
+                            y: CGFloat.random(in: 0...UIScreen.main.bounds.height)
+                        )
+                        .animation(
+                            Animation.linear(duration: Double.random(in: 5...15))
+                                .repeatForever(autoreverses: false),
+                            value: UUID()
+                        )
+                }
+            }
             .ignoresSafeArea()
             
             ScrollView {
                 VStack(spacing: 24) {
-                    // Header
-                    VStack(spacing: 16) {
-                        Image(systemName: "mountain.2.fill")
-                            .font(.system(size: 60))
-                            .foregroundColor(.orange)
+                    // Everest expedition header
+                    VStack(spacing: 20) {
+                        // Everest icon with atmospheric effects
+                        ZStack {
+                            Circle()
+                                .fill(
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [Color.red.opacity(0.3), Color.orange.opacity(0.2)]),
+                                        startPoint: .top,
+                                        endPoint: .bottom
+                                    )
+                                )
+                                .frame(width: 100, height: 100)
+                            
+                            Image(systemName: "mountain.2.fill")
+                                .font(.system(size: 50))
+                                .foregroundColor(.red)
+                                .shadow(color: .black, radius: 3)
+                        }
                         
-                        Text("Choose Your Expedition")
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
+                        VStack(spacing: 8) {
+                            Text("EXPEDITION SELECTION")
+                                .font(.caption)
+                                .fontWeight(.bold)
+                                .foregroundColor(Color(red: 0.7, green: 0.8, blue: 1.0).opacity(0.8))
+                            
+                            Text("CHOOSE YOUR EVEREST")
+                                .font(.largeTitle)
+                                .fontWeight(.black)
+                                .foregroundColor(.white)
+                                .shadow(color: Color.red.opacity(0.5), radius: 2)
+                            
+                            Text("Select your mountain to begin the ultimate climbing challenge")
+                                .font(.subheadline)
+                                .foregroundColor(Color(red: 0.8, green: 0.8, blue: 0.8))
+                                .multilineTextAlignment(.center)
+                        }
                         
-                        Text("Select a mountain to begin your climbing adventure")
-                            .font(.subheadline)
-                            .foregroundColor(.white.opacity(0.8))
-                            .multilineTextAlignment(.center)
+                        // Welcome message
+                        HStack(spacing: 8) {
+                            Image(systemName: "sparkles")
+                                .foregroundColor(.orange)
+                            
+                            Text("Choose your adventure destination")
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.white.opacity(0.8))
+                        }
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 8)
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(Color.white.opacity(0.1))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                                )
+                        )
                     }
                     .padding(.top, 40)
                     
@@ -58,19 +124,65 @@ struct ExpeditionSelectionView: View {
                     }
                     .padding(.horizontal, 20)
                     
-                    // Start expedition button
+                    // Everest expedition launch button
                     if let selectedMountain = selectedMountain {
-                        Button(action: startExpedition) {
-                            HStack {
-                                Image(systemName: "play.fill")
-                                Text("Start Expedition")
+                        VStack(spacing: 12) {
+                            // Ready to start message
+                            HStack(spacing: 8) {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .foregroundColor(.green)
+                                
+                                Text("Ready to begin your adventure!")
+                                    .font(.caption)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(.white.opacity(0.8))
                             }
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 50)
-                            .background(Color.orange)
-                            .cornerRadius(25)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
+                            .background(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .fill(Color.green.opacity(0.2))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 8)
+                                            .stroke(Color.green.opacity(0.4), lineWidth: 1)
+                                    )
+                            )
+                            
+                            // Launch expedition button
+                            Button(action: startExpedition) {
+                                HStack(spacing: 12) {
+                                    Image(systemName: "mountain.2.fill")
+                                        .font(.title2)
+                                    
+                                    VStack(spacing: 2) {
+                                        Text("Start Adventure")
+                                            .font(.headline)
+                                            .fontWeight(.bold)
+                                        
+                                        Text("Begin \(selectedMountain.name) Journey")
+                                            .font(.caption)
+                                            .fontWeight(.medium)
+                                    }
+                                }
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 60)
+                                .background(
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [Color.red.opacity(0.8), Color.orange.opacity(0.9)]),
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                )
+                                .cornerRadius(30)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 30)
+                                        .stroke(Color.red.opacity(0.6), lineWidth: 2)
+                                )
+                                .shadow(color: Color.red.opacity(0.5), radius: 8, x: 0, y: 4)
+                            }
+                            .scaleEffect(1.0)
+                            .animation(.easeInOut(duration: 0.2))
                         }
                         .padding(.horizontal, 32)
                         .transition(.scale.combined(with: .opacity))
@@ -105,76 +217,196 @@ struct MountainCard: View {
     let isPaywalled: Bool
     let onTap: () -> Void
     
+    private var dangerLevel: Color {
+        if mountain.height > 6000 {
+            return .red
+        } else if mountain.height > 4000 {
+            return .orange
+        } else {
+            return .green
+        }
+    }
+    
+    private var isDeathZone: Bool {
+        mountain.height > 6000
+    }
+    
     var body: some View {
         Button(action: onTap) {
             VStack(alignment: .leading, spacing: 12) {
-                // Mountain image placeholder
+                // Everest-style mountain visualization
                 ZStack {
+                    // Mountain background with atmospheric effects
                     RoundedRectangle(cornerRadius: 12)
-                        .fill(LinearGradient(
-                            gradient: Gradient(colors: [mountain.difficulty.color.opacity(0.8), mountain.difficulty.color]),
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        ))
-                        .frame(height: 120)
+                        .fill(
+                            LinearGradient(
+                                gradient: Gradient(colors: [
+                                    dangerLevel.opacity(0.8),
+                                    dangerLevel.opacity(0.6),
+                                    Color(red: 0.1, green: 0.2, blue: 0.3)
+                                ]),
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .frame(height: 140)
                     
-                    VStack {
-                        Image(systemName: mountain.difficulty.icon)
-                            .font(.system(size: 40))
-                            .foregroundColor(.white)
+                    // Atmospheric effects
+                    if isDeathZone {
+                        ForEach(0..<8, id: \.self) { _ in
+                            Image(systemName: "snow")
+                                .font(.caption2)
+                                .foregroundColor(.white.opacity(0.6))
+                                .position(
+                                    x: CGFloat.random(in: 20...UIScreen.main.bounds.width * 0.4),
+                                    y: CGFloat.random(in: 20...120)
+                                )
+                        }
+                    }
+                    
+                    VStack(spacing: 8) {
+                        // Mountain icon with danger indicator
+                        ZStack {
+                            Circle()
+                                .fill(dangerLevel.opacity(0.4))
+                                .frame(width: 60, height: 60)
+                            
+                            Image(systemName: mountain.difficulty.icon)
+                                .font(.system(size: 30))
+                                .foregroundColor(.white)
+                                .shadow(color: .black, radius: 2)
+                        }
                         
-                        if isPaywalled {
-                            VStack {
-                                Image(systemName: "lock.fill")
-                                    .font(.title2)
-                                    .foregroundColor(.yellow)
-                                Text("Paywalled")
+                        // Difficulty indicator
+                        if mountain.height > 6000 {
+                            VStack(spacing: 2) {
+                                Image(systemName: "star.fill")
                                     .font(.caption)
+                                    .foregroundColor(.yellow)
+                                
+                                Text("EXPERT")
+                                    .font(.caption2)
                                     .fontWeight(.bold)
                                     .foregroundColor(.yellow)
                             }
-                            .padding(.top, 8)
+                        } else if mountain.height > 4000 {
+                            VStack(spacing: 2) {
+                                Image(systemName: "star.fill")
+                                    .font(.caption)
+                                    .foregroundColor(.orange)
+                                
+                                Text("ADVANCED")
+                                    .font(.caption2)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.orange)
+                            }
+                        } else {
+                            VStack(spacing: 2) {
+                                Image(systemName: "star.fill")
+                                    .font(.caption)
+                                    .foregroundColor(.green)
+                                
+                                Text("BEGINNER")
+                                    .font(.caption2)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.green)
+                            }
+                        }
+                        
+                        if isPaywalled {
+                            VStack(spacing: 2) {
+                                Image(systemName: "lock.fill")
+                                    .font(.caption)
+                                    .foregroundColor(.yellow)
+                                
+                                Text("PAYWALLED")
+                                    .font(.caption2)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.yellow)
+                            }
                         }
                     }
                 }
                 
-                // Mountain info
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(mountain.name)
+                // Mountain expedition info
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(mountain.name.uppercased())
                         .font(.headline)
-                        .fontWeight(.bold)
+                        .fontWeight(.black)
                         .foregroundColor(.white)
+                        .shadow(color: dangerLevel.opacity(0.5), radius: 1)
                         .lineLimit(2)
                     
-                    Text(mountain.location)
+                    Text(mountain.location.uppercased())
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.7))
+                        .fontWeight(.bold)
+                        .foregroundColor(Color(red: 0.7, green: 0.8, blue: 1.0).opacity(0.8))
                     
+                    // Altitude and difficulty with danger indicators
                     HStack {
-                        Image(systemName: "arrow.up")
-                            .font(.caption)
-                        Text("\(Int(mountain.height))m")
-                            .font(.caption)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("ALTITUDE")
+                                .font(.caption2)
+                                .fontWeight(.bold)
+                                .foregroundColor(Color(red: 0.7, green: 0.8, blue: 1.0).opacity(0.8))
+                            
+                            HStack(spacing: 4) {
+                                Image(systemName: "arrow.up")
+                                    .font(.caption)
+                                    .foregroundColor(dangerLevel)
+                                
+                                Text("\(Int(mountain.height))M")
+                                    .font(.caption)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(dangerLevel)
+                            }
+                        }
+                        
                         Spacer()
-                        Text(mountain.difficulty.rawValue)
-                            .font(.caption)
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 2)
-                            .background(mountain.difficulty.color.opacity(0.2))
-                            .foregroundColor(mountain.difficulty.color)
-                            .cornerRadius(8)
+                        
+                        VStack(alignment: .trailing, spacing: 2) {
+                            Text("DIFFICULTY")
+                                .font(.caption2)
+                                .fontWeight(.bold)
+                                .foregroundColor(Color(red: 0.7, green: 0.8, blue: 1.0).opacity(0.8))
+                            
+                            Text(mountain.difficulty.rawValue.uppercased())
+                                .font(.caption)
+                                .fontWeight(.bold)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 2)
+                                .background(dangerLevel.opacity(0.2))
+                                .foregroundColor(dangerLevel)
+                                .cornerRadius(8)
+                        }
                     }
-                    .foregroundColor(.white.opacity(0.8))
+                    
+                    // Challenge level
+                    HStack(spacing: 8) {
+                        Image(systemName: "flame.fill")
+                            .font(.caption)
+                            .foregroundColor(dangerLevel)
+                        
+                        Text(mountain.height > 6000 ? "HIGH CHALLENGE" : mountain.height > 4000 ? "MODERATE CHALLENGE" : "PERFECT START")
+                            .font(.caption2)
+                            .fontWeight(.bold)
+                            .foregroundColor(dangerLevel)
+                        
+                        Spacer()
+                    }
+                    .padding(.top, 4)
                 }
             }
             .padding(16)
-            .background(Color.white.opacity(0.1))
-            .cornerRadius(16)
-            .overlay(
+            .background(
                 RoundedRectangle(cornerRadius: 16)
-                    .stroke(
-                        isSelected ? Color.orange : Color.white.opacity(0.2),
-                        lineWidth: isSelected ? 2 : 1
+                    .fill(Color.black.opacity(0.4))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16)
+                            .stroke(
+                                isSelected ? dangerLevel : Color(red: 0.7, green: 0.8, blue: 1.0).opacity(0.3),
+                                lineWidth: isSelected ? 3 : 1
+                            )
                     )
             )
             .scaleEffect(isSelected ? 1.05 : 1.0)

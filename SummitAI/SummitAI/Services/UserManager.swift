@@ -8,6 +8,9 @@ class UserManager: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String?
     
+    // Mountain Experiences integration
+    @Published var mountainExperiencesPreferences: UserMountainExperiencesPreferences?
+    
     private var cancellables = Set<AnyCancellable>()
     private let userDefaults = UserDefaults.standard
     private let userKey = "current_user"
@@ -15,6 +18,7 @@ class UserManager: ObservableObject {
     init() {
         print("UserManager: Initializing UserManager")
         loadUserFromStorage()
+        loadMountainExperiencesPreferences()
         print("UserManager: Initialization complete - isAuthenticated: \(isAuthenticated), currentUser: \(currentUser != nil)")
     }
     
@@ -302,5 +306,164 @@ class UserManager: ObservableObject {
         currentUser = mockUser
         isAuthenticated = true
         saveUserToStorage()
+    }
+    
+    // MARK: - Mountain Experiences Integration
+    
+    private func loadMountainExperiencesPreferences() {
+        if let data = userDefaults.data(forKey: "mountain_experiences_preferences"),
+           let preferences = try? JSONDecoder().decode(UserMountainExperiencesPreferences.self, from: data) {
+            mountainExperiencesPreferences = preferences
+        } else {
+            mountainExperiencesPreferences = UserMountainExperiencesPreferences()
+        }
+    }
+    
+    func saveMountainExperiencesPreferences() {
+        if let preferences = mountainExperiencesPreferences,
+           let data = try? JSONEncoder().encode(preferences) {
+            userDefaults.set(data, forKey: "mountain_experiences_preferences")
+        }
+    }
+    
+    func updateMountainExperiencesPreferences(_ preferences: UserMountainExperiencesPreferences) {
+        mountainExperiencesPreferences = preferences
+        saveMountainExperiencesPreferences()
+    }
+    
+    func getRecommendedTrips() -> [Trip] {
+        guard let preferences = mountainExperiencesPreferences else { return Trip.sampleTrips }
+        
+        var filteredTrips = Trip.sampleTrips
+        
+        if !preferences.favoriteCategories.isEmpty {
+            filteredTrips = filteredTrips.filter { preferences.favoriteCategories.contains($0.category) }
+        }
+        
+        if !preferences.favoriteDifficulties.isEmpty {
+            filteredTrips = filteredTrips.filter { preferences.favoriteDifficulties.contains($0.difficulty) }
+        }
+        
+        if let maxPrice = preferences.maxBudget {
+            filteredTrips = filteredTrips.filter { ($0.price ?? 0) <= maxPrice }
+        }
+        
+        return filteredTrips.sorted { ($0.rating ?? 0) > ($1.rating ?? 0) }
+    }
+}
+
+// MARK: - User Mountain Experiences Preferences Model
+
+struct UserMountainExperiencesPreferences: Codable {
+    var favoriteCategories: [TripCategory] = []
+    var favoriteDifficulties: [TripDifficulty] = []
+    var favoriteLocations: Set<String> = []
+    var maxBudget: Double?
+    var maxDuration: Int?
+    var preferredSeason: String?
+    var experienceLevel: ExperienceLevel = .beginner
+    var interests: Set<TripInterest> = []
+    var accessibilityNeeds: Set<AccessibilityNeed> = []
+    var groupSizePreference: GroupSizePreference = .solo
+    var accommodationPreference: AccommodationPreference = .camping
+    
+    init() {}
+    
+    enum ExperienceLevel: String, Codable, CaseIterable {
+        case beginner = "Beginner"
+        case intermediate = "Intermediate"
+        case advanced = "Advanced"
+        case expert = "Expert"
+        
+        var description: String {
+            switch self {
+            case .beginner: return "New to mountain adventures"
+            case .intermediate: return "Some mountain experience"
+            case .advanced: return "Experienced mountaineer"
+            case .expert: return "Professional level climber"
+            }
+        }
+    }
+    
+    enum TripInterest: String, Codable, CaseIterable {
+        case photography = "Photography"
+        case wildlife = "Wildlife Watching"
+        case culture = "Cultural Experiences"
+        case adventure = "Adventure Sports"
+        case relaxation = "Relaxation"
+        case education = "Educational Tours"
+        case fitness = "Fitness Challenges"
+        case social = "Social Experiences"
+        
+        var icon: String {
+            switch self {
+            case .photography: return "camera.fill"
+            case .wildlife: return "bird.fill"
+            case .culture: return "building.columns.fill"
+            case .adventure: return "figure.climbing"
+            case .relaxation: return "leaf.fill"
+            case .education: return "book.fill"
+            case .fitness: return "dumbbell.fill"
+            case .social: return "person.3.fill"
+            }
+        }
+    }
+    
+    enum AccessibilityNeed: String, Codable, CaseIterable {
+        case wheelchair = "Wheelchair Accessible"
+        case mobility = "Mobility Assistance"
+        case hearing = "Hearing Assistance"
+        case visual = "Visual Assistance"
+        case dietary = "Dietary Restrictions"
+        case medical = "Medical Support"
+        
+        var icon: String {
+            switch self {
+            case .wheelchair: return "figure.roll"
+            case .mobility: return "figure.walk"
+            case .hearing: return "ear.fill"
+            case .visual: return "eye.fill"
+            case .dietary: return "fork.knife"
+            case .medical: return "cross.fill"
+            }
+        }
+    }
+    
+    enum GroupSizePreference: String, Codable, CaseIterable {
+        case solo = "Solo Travel"
+        case small = "Small Group (2-4)"
+        case medium = "Medium Group (5-8)"
+        case large = "Large Group (9+)"
+        case `private` = "Private Tour"
+        
+        var description: String {
+            switch self {
+            case .solo: return "Travel alone"
+            case .small: return "2-4 people"
+            case .medium: return "5-8 people"
+            case .large: return "9+ people"
+            case .`private`: return "Private guided tour"
+            }
+        }
+    }
+    
+    enum AccommodationPreference: String, Codable, CaseIterable {
+        case camping = "Camping"
+        case lodges = "Mountain Lodges"
+        case hotels = "Hotels"
+        case hostels = "Hostels"
+        case luxury = "Luxury Accommodation"
+        case any = "Any"
+        
+        var icon: String {
+            switch self {
+            case .camping: return "tent.fill"
+            case .lodges: return "house.fill"
+            case .hotels: return "building.2.fill"
+            case .hostels: return "bed.double.fill"
+            case .luxury: return "crown.fill"
+            case .any: return "checkmark.circle.fill"
+            }
+        }
     }
 }

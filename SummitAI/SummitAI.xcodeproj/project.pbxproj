@@ -26,6 +26,7 @@
 		AA0033 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0034 /* ProfileView.swift */; };
 		AA0035 /* AICoachViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0036 /* AICoachViews.swift */; };
 		AA0037 /* AutoReelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0038 /* AutoReelsView.swift */; };
+		EC6EFBD4C8 /* MountainExperiencesModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EFBD4C9 /* MountainExperiencesModels.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		AA0034 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		AA0036 /* AICoachViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AICoachViews.swift; sourceTree = "<group>"; };
 		AA0038 /* AutoReelsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoReelsView.swift; sourceTree = "<group>"; };
+		EC6EFBD4C9 /* MountainExperiencesModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MountainExperiencesModels.swift; sourceTree = "<group>"; };
 		AA0039 /* SummitAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SummitAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA0040 /* SummitAI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SummitAI.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -99,6 +101,7 @@
 			children = (
 				AA0010 /* Mountain.swift */,
 				AA0012 /* User.swift */,
+				EC6EFBD4C9 /* MountainExperiencesModels.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -225,6 +228,7 @@
 				AA0033 /* ProfileView.swift in Sources */,
 				AA0035 /* AICoachViews.swift in Sources */,
 				AA0037 /* AutoReelsView.swift in Sources */,
+				EC6EFBD4C8 /* MountainExperiencesModels.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

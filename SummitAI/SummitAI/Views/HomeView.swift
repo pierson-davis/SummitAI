@@ -803,13 +803,13 @@ struct MountainSilhouetteView: View {
                         endPoint: .bottom
                     )
                 )
-                .frame(height: 50)
+                .frame(height: 200)
             
             // Mountain peaks
             HStack(spacing: 0) {
                 ForEach(0..<3) { index in
                     MountainPeakView(
-                        height: 45 + CGFloat(index * 3),
+                        height: 120 + CGFloat(index * 20),
                         progress: progress,
                         isActive: index == 1
                     )
@@ -838,7 +838,7 @@ struct MountainPeakView: View {
             Spacer()
             
             Path { path in
-                let width: CGFloat = 50
+                let width: CGFloat = 60
                 let peakHeight = height * progress
                 
                 path.move(to: CGPoint(x: 0, y: height))
@@ -856,7 +856,7 @@ struct MountainPeakView: View {
                     endPoint: .bottom
                 )
             )
-            .frame(width: 50, height: height)
+            .frame(width: 60, height: height)
         }
     }
 }
@@ -872,9 +872,9 @@ struct CampMarkerView: View {
             
             Button(action: {}) {
                 Image(systemName: camp.isSummit ? "flag.fill" : "tent.fill")
-                    .font(.system(size: 14, weight: .bold))
+                    .font(.system(size: 16, weight: .bold))
                     .foregroundColor(.white)
-                    .frame(width: 28, height: 28)
+                    .frame(width: 32, height: 32)
                     .background(
                         Circle()
                             .fill(isCurrent ? Color.orange : (isReached ? Color.green : Color.gray))
@@ -886,13 +886,13 @@ struct CampMarkerView: View {
                     .scaleEffect(isCurrent ? 1.2 : 1.0)
                     .animation(.easeInOut(duration: 0.3), value: isCurrent)
             }
-            .offset(y: -CGFloat(camp.altitude) * 0.02) // Position based on altitude
+            .offset(y: -CGFloat(camp.altitude) * 0.2) // Position based on altitude
             
             Text(camp.name)
                 .font(.caption2)
                 .foregroundColor(.white)
                 .multilineTextAlignment(.center)
-                .offset(y: -CGFloat(camp.altitude) * 0.02 - 2)
+                .offset(y: -CGFloat(camp.altitude) * 0.2 - 20)
         }
     }
 }
@@ -1030,6 +1030,289 @@ struct AIRecommendationCard: View {
         case .high:
             return .red
         }
+    }
+}
+
+// MARK: - Everest Mountain Visualization Components
+
+struct EverestSilhouetteView: View {
+    let progress: Double
+    let camps: [Camp]
+    let currentCampId: UUID?
+    
+    var body: some View {
+        ZStack {
+            // Everest base with ice and snow
+            RoundedRectangle(cornerRadius: 8)
+                .fill(
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            Color(red: 0.2, green: 0.3, blue: 0.5),
+                            Color(red: 0.1, green: 0.2, blue: 0.4),
+                            Color(red: 0.05, green: 0.1, blue: 0.2)
+                        ]),
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                )
+                .frame(height: 120)
+            
+            // Everest peaks with realistic proportions
+            HStack(spacing: 0) {
+                ForEach(0..<5) { index in
+                    EverestPeakView(
+                        height: 100 + CGFloat(index * 8),
+                        progress: progress,
+                        isActive: index == 2, // Center peak is main summit
+                        isMainPeak: index == 2
+                    )
+                }
+            }
+            
+            // Everest camp markers with danger zones
+            ForEach(camps) { camp in
+                EverestCampMarkerView(
+                    camp: camp,
+                    isReached: camp.stepsRequired <= Int(progress * Double(camps.last?.stepsRequired ?? 1)),
+                    isCurrent: camp.id == currentCampId
+                )
+            }
+            
+            // Summit flag
+            if progress > 0.95 {
+                VStack {
+                    Image(systemName: "flag.fill")
+                        .font(.title)
+                        .foregroundColor(.red)
+                        .shadow(color: .black, radius: 2)
+                        .offset(y: -50)
+                    
+                    Text("SUMMIT")
+                        .font(.caption2)
+                        .fontWeight(.black)
+                        .foregroundColor(.red)
+                        .shadow(color: .black, radius: 1)
+                        .offset(y: -45)
+                }
+                .animation(.easeInOut(duration: 0.5), value: progress)
+            }
+        }
+    }
+}
+
+struct EverestPeakView: View {
+    let height: CGFloat
+    let progress: Double
+    let isActive: Bool
+    let isMainPeak: Bool
+    
+    var body: some View {
+        VStack {
+            Spacer()
+            
+            Path { path in
+                let width: CGFloat = 60
+                let peakHeight = height * progress
+                
+                // Main peak shape
+                path.move(to: CGPoint(x: 0, y: height))
+                path.addLine(to: CGPoint(x: width/3, y: height - peakHeight * 0.6))
+                path.addLine(to: CGPoint(x: width/2, y: height - peakHeight))
+                path.addLine(to: CGPoint(x: 2*width/3, y: height - peakHeight * 0.6))
+                path.addLine(to: CGPoint(x: width, y: height))
+                path.closeSubpath()
+                
+                // Ice cap
+                if isMainPeak {
+                    path.move(to: CGPoint(x: width/3, y: height - peakHeight * 0.6))
+                    path.addLine(to: CGPoint(x: width/2, y: height - peakHeight))
+                    path.addLine(to: CGPoint(x: 2*width/3, y: height - peakHeight * 0.6))
+                    path.closeSubpath()
+                }
+            }
+            .fill(
+                LinearGradient(
+                    gradient: Gradient(colors: [
+                        isMainPeak ? Color.white.opacity(0.9) : (isActive ? Color(red: 0.8, green: 0.4, blue: 0.4) : Color(red: 0.4, green: 0.5, blue: 0.6)),
+                        isMainPeak ? Color.white.opacity(0.7) : (isActive ? Color(red: 0.6, green: 0.3, blue: 0.3) : Color(red: 0.2, green: 0.3, blue: 0.4))
+                    ]),
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+            )
+            .frame(width: 60, height: height)
+        }
+    }
+}
+
+struct EverestCampMarkerView: View {
+    let camp: Camp
+    let isReached: Bool
+    let isCurrent: Bool
+    
+    private var dangerLevel: Color {
+        if camp.altitude > 6000 {
+            return .red
+        } else if camp.altitude > 4000 {
+            return .orange
+        } else {
+            return .green
+        }
+    }
+    
+    var body: some View {
+        VStack {
+            Spacer()
+            
+            Button(action: {}) {
+                ZStack {
+                    // Danger zone indicator
+                    Circle()
+                        .fill(dangerLevel.opacity(0.3))
+                        .frame(width: 50, height: 50)
+                        .overlay(
+                            Circle()
+                                .stroke(dangerLevel, lineWidth: 2)
+                        )
+                    
+                    // Camp icon
+                    Image(systemName: camp.isSummit ? "flag.fill" : "tent.fill")
+                        .font(.system(size: 20, weight: .bold))
+                        .foregroundColor(.white)
+                        .shadow(color: .black, radius: 1)
+                }
+                .scaleEffect(isCurrent ? 1.3 : 1.0)
+                .animation(.easeInOut(duration: 0.3), value: isCurrent)
+            }
+            .offset(y: -CGFloat(camp.altitude) * 0.08) // Position based on altitude
+            
+            // Camp label with danger info
+            VStack(spacing: 2) {
+                Text(camp.name.uppercased())
+                    .font(.caption2)
+                    .fontWeight(.black)
+                    .foregroundColor(.white)
+                    .shadow(color: .black, radius: 1)
+                    .multilineTextAlignment(.center)
+                
+                Text("\(Int(camp.altitude))M")
+                    .font(.caption2)
+                    .fontWeight(.bold)
+                    .foregroundColor(dangerLevel)
+                    .shadow(color: .black, radius: 1)
+                
+                if camp.altitude > 6000 {
+                    Text("DEATH ZONE")
+                        .font(.caption2)
+                        .fontWeight(.bold)
+                        .foregroundColor(.red)
+                } else if camp.altitude > 4000 {
+                    Text("HIGH RISK")
+                        .font(.caption2)
+                        .fontWeight(.bold)
+                        .foregroundColor(.orange)
+                }
+            }
+            .offset(y: -CGFloat(camp.altitude) * 0.08 - 25)
+        }
+    }
+}
+
+struct EverestCampMilestoneView: View {
+    let camp: Camp
+    let isReached: Bool
+    let isCurrent: Bool
+    let progress: Double
+    
+    private var dangerLevel: Color {
+        if camp.altitude > 6000 {
+            return .red
+        } else if camp.altitude > 4000 {
+            return .orange
+        } else {
+            return .green
+        }
+    }
+    
+    var body: some View {
+        VStack(spacing: 8) {
+            ZStack {
+                // Danger zone background
+                Circle()
+                    .fill(dangerLevel.opacity(0.3))
+                    .frame(width: 50, height: 50)
+                    .overlay(
+                        Circle()
+                            .stroke(dangerLevel, lineWidth: isCurrent ? 3 : 2)
+                    )
+                
+                if isReached {
+                    Image(systemName: "checkmark")
+                        .font(.system(size: 20, weight: .bold))
+                        .foregroundColor(.white)
+                        .shadow(color: .black, radius: 1)
+                } else if isCurrent {
+                    Image(systemName: "person.fill")
+                        .font(.system(size: 18, weight: .bold))
+                        .foregroundColor(.white)
+                        .shadow(color: .black, radius: 1)
+                } else {
+                    Image(systemName: camp.isSummit ? "flag" : "tent")
+                        .font(.system(size: 18, weight: .bold))
+                        .foregroundColor(.white.opacity(0.8))
+                        .shadow(color: .black, radius: 1)
+                }
+            }
+            
+            VStack(spacing: 3) {
+                Text(camp.name.uppercased())
+                    .font(.caption2)
+                    .fontWeight(.black)
+                    .foregroundColor(.white)
+                    .shadow(color: .black, radius: 1)
+                    .multilineTextAlignment(.center)
+                
+                Text("\(Int(camp.altitude))M")
+                    .font(.caption2)
+                    .fontWeight(.bold)
+                    .foregroundColor(dangerLevel)
+                    .shadow(color: .black, radius: 1)
+                
+                if camp.altitude > 6000 {
+                    Text("DEATH ZONE")
+                        .font(.caption2)
+                        .fontWeight(.bold)
+                        .foregroundColor(.red)
+                } else if camp.altitude > 4000 {
+                    Text("HIGH RISK")
+                        .font(.caption2)
+                        .fontWeight(.bold)
+                        .foregroundColor(.orange)
+                } else {
+                    Text("SAFE ZONE")
+                        .font(.caption2)
+                        .fontWeight(.bold)
+                        .foregroundColor(.green)
+                }
+                
+                if !isReached && !isCurrent {
+                    Text("\(Int(progress * 100))%")
+                        .font(.caption2)
+                        .fontWeight(.bold)
+                        .foregroundColor(.orange)
+                }
+            }
+        }
+        .frame(width: 90)
+        .padding(.vertical, 12)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(isCurrent ? dangerLevel.opacity(0.2) : Color.clear)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(isCurrent ? dangerLevel : Color.clear, lineWidth: 2)
+                )
+        )
     }
 }
 

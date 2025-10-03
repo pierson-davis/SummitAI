@@ -9,6 +9,10 @@ class ExpeditionManager: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String?
     
+    // Mountain Experiences integration
+    @Published var mountainExperiencesTrips: [Trip] = []
+    @Published var mountainExperiencesLocations: [Location] = []
+    
     // Realistic climbing integration
     // Environmental zone system - temporarily simplified
     // @Published var currentEnvironmentalZone: EnvironmentalZoneType = .rainforest
@@ -27,6 +31,7 @@ class ExpeditionManager: ObservableObject {
         print("ExpeditionManager: Initializing ExpeditionManager")
         loadAvailableMountains()
         loadExpeditionData()
+        loadMountainExperiencesData()
         // setupRealisticClimbingIntegration() // Temporarily disabled
         print("ExpeditionManager: Initialization complete - currentExpedition: \(currentExpedition != nil)")
     }
@@ -372,6 +377,12 @@ class ExpeditionManager: ObservableObject {
     
     private func loadAvailableMountains() {
         availableMountains = Mountain.allMountains
+    }
+    
+    private func loadMountainExperiencesData() {
+        mountainExperiencesTrips = Trip.sampleTrips
+        mountainExperiencesLocations = Location.allSampleLocations
+        print("ExpeditionManager: Loaded \(mountainExperiencesTrips.count) Mountain Experiences trips and \(mountainExperiencesLocations.count) locations")
     }
     
     func getAvailableMountains(for user: User) -> [Mountain] {
