@@ -1,0 +1,441 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AA0001 /* SummitAIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0002 /* SummitAIApp.swift */; };
+		AA0003 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0004 /* ContentView.swift */; };
+		AA0005 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA0006 /* Assets.xcassets */; };
+		AA0007 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA0008 /* Preview Assets.xcassets */; };
+		AA0009 /* Mountain.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0010 /* Mountain.swift */; };
+		AA0011 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0012 /* User.swift */; };
+		AA0013 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0014 /* HealthKitManager.swift */; };
+		AA0015 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0016 /* UserManager.swift */; };
+		AA0017 /* ExpeditionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0018 /* ExpeditionManager.swift */; };
+		AA0019 /* AICoachManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0020 /* AICoachManager.swift */; };
+		AA0021 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0022 /* OnboardingView.swift */; };
+		AA0023 /* AuthenticationViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0024 /* AuthenticationViews.swift */; };
+		AA0025 /* ExpeditionSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0026 /* ExpeditionSelectionView.swift */; };
+		AA0027 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0028 /* HomeView.swift */; };
+		AA0029 /* ChallengesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0030 /* ChallengesView.swift */; };
+		AA0031 /* CommunityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0032 /* CommunityView.swift */; };
+		AA0033 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0034 /* ProfileView.swift */; };
+		AA0035 /* AICoachViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0036 /* AICoachViews.swift */; };
+		AA0037 /* AutoReelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0038 /* AutoReelsView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		AA0002 /* SummitAIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummitAIApp.swift; sourceTree = "<group>"; };
+		AA0004 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		AA0006 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AA0008 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		AA0010 /* Mountain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mountain.swift; sourceTree = "<group>"; };
+		AA0012 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		AA0014 /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
+		AA0016 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		AA0018 /* ExpeditionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpeditionManager.swift; sourceTree = "<group>"; };
+		AA0020 /* AICoachManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AICoachManager.swift; sourceTree = "<group>"; };
+		AA0022 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		AA0024 /* AuthenticationViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViews.swift; sourceTree = "<group>"; };
+		AA0026 /* ExpeditionSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpeditionSelectionView.swift; sourceTree = "<group>"; };
+		AA0028 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		AA0030 /* ChallengesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengesView.swift; sourceTree = "<group>"; };
+		AA0032 /* CommunityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityView.swift; sourceTree = "<group>"; };
+		AA0034 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		AA0036 /* AICoachViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AICoachViews.swift; sourceTree = "<group>"; };
+		AA0038 /* AutoReelsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoReelsView.swift; sourceTree = "<group>"; };
+		AA0039 /* SummitAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SummitAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA0040 /* SummitAI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SummitAI.entitlements; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AA0041 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AA0042 = {
+			isa = PBXGroup;
+			children = (
+				AA0043 /* SummitAI */,
+				AA0044 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		AA0043 /* SummitAI */ = {
+			isa = PBXGroup;
+			children = (
+				AA0002 /* SummitAIApp.swift */,
+				AA0004 /* ContentView.swift */,
+				AA0045 /* Models */,
+				AA0046 /* Views */,
+				AA0047 /* Services */,
+				AA0006 /* Assets.xcassets */,
+				AA0040 /* SummitAI.entitlements */,
+				AA0048 /* Preview Content */,
+			);
+			path = SummitAI;
+			sourceTree = "<group>";
+		};
+		AA0044 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AA0039 /* SummitAI.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AA0045 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AA0010 /* Mountain.swift */,
+				AA0012 /* User.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		AA0046 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AA0022 /* OnboardingView.swift */,
+				AA0024 /* AuthenticationViews.swift */,
+				AA0026 /* ExpeditionSelectionView.swift */,
+				AA0028 /* HomeView.swift */,
+				AA0030 /* ChallengesView.swift */,
+				AA0032 /* CommunityView.swift */,
+				AA0034 /* ProfileView.swift */,
+				AA0036 /* AICoachViews.swift */,
+				AA0038 /* AutoReelsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		AA0047 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				AA0014 /* HealthKitManager.swift */,
+				AA0016 /* UserManager.swift */,
+				AA0018 /* ExpeditionManager.swift */,
+				AA0020 /* AICoachManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		AA0048 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				AA0008 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AA0049 /* SummitAI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA0050 /* Build configuration list for PBXNativeTarget "SummitAI" */;
+			buildPhases = (
+				AA0051 /* Sources */,
+				AA0041 /* Frameworks */,
+				AA0052 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SummitAI;
+			productName = SummitAI;
+			productReference = AA0039 /* SummitAI.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AA0053 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					AA0049 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = AA0054 /* Build configuration list for PBXProject "SummitAI" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = AA0042;
+			productRefGroup = AA0044 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AA0049 /* SummitAI */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AA0052 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA0007 /* Preview Assets.xcassets in Resources */,
+				AA0005 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AA0051 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA0003 /* ContentView.swift in Sources */,
+				AA0001 /* SummitAIApp.swift in Sources */,
+				AA0009 /* Mountain.swift in Sources */,
+				AA0011 /* User.swift in Sources */,
+				AA0013 /* HealthKitManager.swift in Sources */,
+				AA0015 /* UserManager.swift in Sources */,
+				AA0017 /* ExpeditionManager.swift in Sources */,
+				AA0019 /* AICoachManager.swift in Sources */,
+				AA0021 /* OnboardingView.swift in Sources */,
+				AA0023 /* AuthenticationViews.swift in Sources */,
+				AA0025 /* ExpeditionSelectionView.swift in Sources */,
+				AA0027 /* HomeView.swift in Sources */,
+				AA0029 /* ChallengesView.swift in Sources */,
+				AA0031 /* CommunityView.swift in Sources */,
+				AA0033 /* ProfileView.swift in Sources */,
+				AA0035 /* AICoachViews.swift in Sources */,
+				AA0037 /* AutoReelsView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		AA0055 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		AA0056 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AA0057 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SummitAI/SummitAI.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"SummitAI/Preview Content\"";
+				DEVELOPMENT_TEAM = KU4HZ94MVK;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "SummitAI uses your health data to track your fitness progress and create personalized expedition experiences.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "SummitAI updates your health data to track your climbing progress and expedition milestones.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.summitai.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AA0058 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SummitAI/SummitAI.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"SummitAI/Preview Content\"";
+				DEVELOPMENT_TEAM = KU4HZ94MVK;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "SummitAI uses your health data to track your fitness progress and create personalized expedition experiences.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "SummitAI updates your health data to track your climbing progress and expedition milestones.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.summitai.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AA0050 /* Build configuration list for PBXNativeTarget "SummitAI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA0057 /* Debug */,
+				AA0058 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA0054 /* Build configuration list for PBXProject "SummitAI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA0055 /* Debug */,
+				AA0056 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = AA0053 /* Project object */;
+}
