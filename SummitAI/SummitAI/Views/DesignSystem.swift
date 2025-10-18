@@ -97,6 +97,7 @@ struct Typography {
     // MARK: - Display Styles
     static let displayXL = Font.system(size: 34, weight: .bold, design: .default)
     static let displayL = Font.system(size: 32, weight: .bold, design: .default)
+    static let displayM = Font.system(size: 28, weight: .bold, design: .default)
     
     // MARK: - Title Styles
     static let titleXL = Font.system(size: 30, weight: .semibold, design: .default)
@@ -331,7 +332,6 @@ extension View {
     func accessibleText() -> some View {
         self
             .foregroundColor(.textPrimary)
-            .accessibilityLabel(self)
     }
 }
 

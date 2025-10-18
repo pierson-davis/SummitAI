@@ -15,35 +15,8 @@ struct ContentView: View {
                 MainTabView()
             }
         }
-        .overlay(
-            // Debug overlay to show current state
-            VStack {
-                Spacer()
-                HStack {
-                    Spacer()
-                    VStack(spacing: 4) {
-                        Text("Auth: \(userManager.isAuthenticated ? "Yes" : "No")")
-                            .font(.caption)
-                        Text("Expedition: \(expeditionManager.currentExpedition != nil ? "Yes" : "No")")
-                            .font(.caption)
-                        Text("Mountains: \(expeditionManager.availableMountains.count)")
-                            .font(.caption)
-                    }
-                    .padding(8)
-                    .background(Color.black.opacity(0.7))
-                    .foregroundColor(.white)
-                    .cornerRadius(4)
-                    Spacer()
-                }
-                .padding(.bottom, 50)
-            }
-        )
         .animation(.easeInOut, value: userManager.isAuthenticated)
         .animation(.easeInOut, value: expeditionManager.currentExpedition)
-        .onAppear {
-            print("ContentView appeared - isAuthenticated: \(userManager.isAuthenticated), currentExpedition: \(expeditionManager.currentExpedition != nil)")
-        }
-        .background(Color.red.opacity(0.1)) // Add a subtle background to see if ContentView is rendering
     }
 }
 

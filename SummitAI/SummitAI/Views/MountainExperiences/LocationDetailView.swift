@@ -94,7 +94,7 @@ struct LocationDetailView: View {
                         )
                     )
             }
-            .frame(height: 300)
+            .frame(height: 250) // Reduced for better vertical mobile layout
             .clipped()
             
             // Bottom gradient overlay
@@ -107,7 +107,7 @@ struct LocationDetailView: View {
                 startPoint: .top,
                 endPoint: .bottom
             )
-            .frame(height: 300)
+            .frame(height: 250) // Reduced for better vertical mobile layout
             
             // Location flag and title overlay
             VStack {
@@ -296,10 +296,8 @@ struct LocationDetailView: View {
             if filteredTrips.isEmpty {
                 emptyStateView
             } else {
-                LazyVGrid(columns: [
-                    GridItem(.flexible(), spacing: DesignSystem.Spacing.sm),
-                    GridItem(.flexible(), spacing: DesignSystem.Spacing.sm)
-                ], spacing: DesignSystem.Spacing.md) {
+                // Single column layout for better vertical mobile experience
+                LazyVStack(spacing: DesignSystem.Spacing.md) {
                     ForEach(filteredTrips) { trip in
                         TripCard(trip: trip) {
                             // Navigate to trip detail
@@ -506,148 +504,6 @@ struct LocationDetailView: View {
 
 // MARK: - Supporting Views
 
-struct CategoryChip: View {
-    let icon: String
-    let label: String
-    let isSelected: Bool
-    let onTap: () -> Void
-    
-    var body: some View {
-        Button(action: onTap) {
-            HStack(spacing: DesignSystem.Spacing.xs) {
-                Image(systemName: icon)
-                    .font(.caption)
-                    .foregroundColor(isSelected ? .white : .textSecondary)
-                
-                Text(label)
-                    .font(Typography.labelM)
-                    .foregroundColor(isSelected ? .white : .textPrimary)
-            }
-            .padding(.horizontal, DesignSystem.Spacing.sm)
-            .padding(.vertical, DesignSystem.Spacing.xs)
-        }
-        .chipStyle(isSelected: isSelected)
-        .pressState()
-    }
-}
-
-struct TripCard: View {
-    let trip: Trip
-    let onTap: () -> Void
-    let onLongPress: () -> Void
-    
-    var body: some View {
-        Button(action: onTap) {
-            VStack(spacing: 0) {
-                // Trip image (16:10 aspect ratio)
-                AsyncImage(url: URL(string: trip.coverImageURL)) { image in
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                } placeholder: {
-                    Rectangle()
-                        .fill(
-                            LinearGradient(
-                                gradient: Gradient(colors: [
-                                    Color.accent600.opacity(0.8),
-                                    Color.accent500.opacity(0.6)
-                                ]),
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
-                        )
-                        .overlay(
-                            VStack {
-                                Image(systemName: trip.category.icon)
-                                    .font(.title2)
-                                    .foregroundColor(.white.opacity(0.8))
-                                Text(trip.title)
-                                    .font(.caption)
-                                    .foregroundColor(.white)
-                                    .multilineTextAlignment(.center)
-                                    .lineLimit(2)
-                            }
-                        )
-                }
-                .frame(height: 120)
-                .clipped()
-                
-                // Trip metadata
-                VStack(alignment: .leading, spacing: DesignSystem.Spacing.xs) {
-                    // Title
-                    Text(trip.title)
-                        .font(Typography.bodyM)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.textPrimary)
-                        .lineLimit(2)
-                        .multilineTextAlignment(.leading)
-                    
-                    // Metadata capsules
-                    HStack(spacing: DesignSystem.Spacing.xs) {
-                        // Category
-                        Text(trip.category.rawValue)
-                            .font(Typography.caption)
-                            .foregroundColor(.textSecondary)
-                            .padding(.horizontal, DesignSystem.Spacing.xs)
-                            .padding(.vertical, 2)
-                            .background(Color.surfaceElev2)
-                            .cornerRadius(4)
-                        
-                        // Duration
-                        Text("\(trip.durationDays)d")
-                            .font(Typography.caption)
-                            .foregroundColor(.textSecondary)
-                            .padding(.horizontal, DesignSystem.Spacing.xs)
-                            .padding(.vertical, 2)
-                            .background(Color.surfaceElev2)
-                            .cornerRadius(4)
-                        
-                        Spacer()
-                        
-                        // Difficulty
-                        Text(trip.difficulty.rawValue)
-                            .font(Typography.caption)
-                            .foregroundColor(trip.difficulty.color)
-                            .padding(.horizontal, DesignSystem.Spacing.xs)
-                            .padding(.vertical, 2)
-                            .background(trip.difficulty.color.opacity(0.2))
-                            .cornerRadius(4)
-                    }
-                    
-                    // Rating and price
-                    HStack {
-                        if let rating = trip.rating {
-                            HStack(spacing: 2) {
-                                Image(systemName: "star.fill")
-                                    .font(.caption2)
-                                    .foregroundColor(.yellow)
-                                Text(String(format: "%.1f", rating))
-                                    .font(Typography.caption)
-                                    .foregroundColor(.textSecondary)
-                            }
-                        }
-                        
-                        Spacer()
-                        
-                        if let price = trip.price {
-                            Text("$\(Int(price))")
-                                .font(Typography.labelM)
-                                .fontWeight(.semibold)
-                                .foregroundColor(.textPrimary)
-                        }
-                    }
-                }
-                .padding(DesignSystem.Spacing.sm)
-            }
-        }
-        .cardStyle()
-        .onLongPressGesture {
-            onLongPress()
-        }
-        .pressState()
-    }
-}
-
 // MARK: - Scroll Offset Preference Key
 
 struct ScrollOffsetPreferenceKey: PreferenceKey {
@@ -658,17 +514,6 @@ struct ScrollOffsetPreferenceKey: PreferenceKey {
     }
 }
 
-// MARK: - Trip Difficulty Extension
-
-extension TripDifficulty {
-    var color: Color {
-        switch self {
-        case .easy: return .green
-        case .moderate: return .orange
-        case .hard: return .red
-        }
-    }
-}
 
 #Preview {
     LocationDetailView(location: Location.sampleNepal)
