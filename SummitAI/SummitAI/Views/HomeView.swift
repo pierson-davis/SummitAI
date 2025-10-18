@@ -23,6 +23,11 @@ struct HomeView: View {
                         // Header
                         headerView
                         
+                        // Streak System
+                        if let streakManager = healthManager.streakManager {
+                            StreakView(streakManager: streakManager)
+                        }
+                        
                         // Current expedition status
                         if let expedition = expeditionManager.currentExpedition,
                            let mountain = expeditionManager.getMountain(by: expedition.mountainId) {

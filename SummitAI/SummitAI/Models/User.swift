@@ -21,6 +21,13 @@ struct User: Identifiable, Codable {
     var achievements: [Achievement]
     var stats: UserStats
     
+    // Streak system properties
+    var dailyStepTarget: Int
+    var currentStreak: Int
+    var longestStreak: Int
+    var streakHistory: [StreakDay]
+    var lastStreakUpdate: Date
+    
     init(username: String, email: String, displayName: String) {
         self.id = UUID().uuidString
         self.username = username
@@ -39,6 +46,13 @@ struct User: Identifiable, Codable {
         self.badges = []
         self.achievements = []
         self.stats = UserStats()
+        
+        // Initialize streak system properties
+        self.dailyStepTarget = 5000
+        self.currentStreak = 0
+        self.longestStreak = 0
+        self.streakHistory = []
+        self.lastStreakUpdate = Date()
     }
     
     // MARK: - Firestore Compatibility (will be implemented later)
@@ -340,3 +354,4 @@ extension Badge {
     
     static let allBadges: [Badge] = [.firstSteps, .mountainGoat, .expeditionLeader, .streakMaster, .legend]
 }
+

@@ -19,6 +19,9 @@ class HealthKitManager: ObservableObject {
     @Published var weeklyTrends: WeeklyTrends = WeeklyTrends()
     @Published var healthInsights: [HealthInsight] = []
     
+    // Streak integration
+    @Published var streakManager: StreakManager?
+    
     private var cancellables = Set<AnyCancellable>()
     private var updateTimer: Timer?
     
@@ -47,6 +50,18 @@ class HealthKitManager: ObservableObject {
     
     init() {
         checkHealthKitAvailability()
+        setupStreakManager()
+    }
+    
+    private func setupStreakManager() {
+        streakManager = StreakManager()
+        
+        // Update streak when steps change
+        $todaySteps
+            .sink { [weak self] steps in
+                self?.streakManager?.updateStreak(with: steps)
+            }
+            .store(in: &cancellables)
     }
     
     private func checkHealthKitAvailability() {

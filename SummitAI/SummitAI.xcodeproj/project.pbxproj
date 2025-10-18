@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		529E31C6E11F440293A34529 /* StreakManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492824E0EA994A12808CF4B5 /* StreakManager.swift */; };
+		E0DF097927D44A27AABDA971 /* StreakView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6F5FCEDF3D441CBF69020C /* StreakView.swift */; };
 		AA0001 /* SummitAIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0002 /* SummitAIApp.swift */; };
 		AA0003 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0004 /* ContentView.swift */; };
 		AA0005 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA0006 /* Assets.xcassets */; };
@@ -27,9 +29,11 @@
 		AA0035 /* AICoachViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0036 /* AICoachViews.swift */; };
 		AA0037 /* AutoReelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0038 /* AutoReelsView.swift */; };
 		EC6EFBD4C8 /* MountainExperiencesModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6EFBD4C9 /* MountainExperiencesModels.swift */; };
-/* End PBXBuildFile section */
+
 
 /* Begin PBXFileReference section */
+		492824E0EA994A12808CF4B5 /* StreakManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakManager.swift; sourceTree = "<group>"; };
+		6E6F5FCEDF3D441CBF69020C /* StreakView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakView.swift; sourceTree = "<group>"; };
 		AA0002 /* SummitAIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummitAIApp.swift; sourceTree = "<group>"; };
 		AA0004 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		AA0006 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -52,7 +56,7 @@
 		EC6EFBD4C9 /* MountainExperiencesModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MountainExperiencesModels.swift; sourceTree = "<group>"; };
 		AA0039 /* SummitAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SummitAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA0040 /* SummitAI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SummitAI.entitlements; sourceTree = "<group>"; };
-/* End PBXFileReference section */
+
 
 /* Begin PBXFrameworksBuildPhase section */
 		AA0041 /* Frameworks */ = {
@@ -210,7 +214,9 @@
 		AA0051 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
-			files = (
+			files = (				529E31C6E11F440293A34529 /* StreakManager.swift in Sources */,
+				E0DF097927D44A27AABDA971 /* StreakView.swift in Sources */,
+
 				AA0003 /* ContentView.swift in Sources */,
 				AA0001 /* SummitAIApp.swift in Sources */,
 				AA0009 /* Mountain.swift in Sources */,
