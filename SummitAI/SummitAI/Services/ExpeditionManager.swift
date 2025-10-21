@@ -655,6 +655,31 @@ class ExpeditionManager: ObservableObject {
         }
     }
     */
+    
+    // MARK: - Reset Methods
+    
+    func resetExpeditionProgress() {
+        guard var expedition = currentExpedition else { return }
+        
+        print("ExpeditionManager: Resetting expedition progress to match actual HealthKit data")
+        
+        // Reset expedition progress to 0
+        expedition.totalSteps = 0
+        expedition.totalElevation = 0
+        expedition.dailyProgress = []
+        expedition.lastUpdateDate = Date()
+        
+        // Reset current camp to base camp
+        if let mountain = getMountain(by: expedition.mountainId),
+           let baseCamp = mountain.camps.first(where: { $0.isBaseCamp }) {
+            expedition.currentCampId = baseCamp.id
+        }
+        
+        currentExpedition = expedition
+        saveCurrentExpedition()
+        
+        print("ExpeditionManager: Expedition progress reset - totalSteps: \(expedition.totalSteps), currentCampId: \(expedition.currentCampId)")
+    }
 
 // MARK: - Enhanced Progress Models
 

@@ -144,6 +144,18 @@ class HealthKitManager: ObservableObject {
         calculateFitnessScore()
     }
     
+    // Method to reset steps to actual HealthKit values
+    func resetStepsToActual() {
+        print("HealthKitManager: Resetting steps to actual HealthKit values")
+        fetchTodayData()
+    }
+    
+    // Method to force refresh all health data
+    func forceRefresh() {
+        print("HealthKitManager: Force refreshing all health data")
+        fetchTodayData()
+    }
+    
     private func fetchTodaySteps() {
         guard let stepType = HKObjectType.quantityType(forIdentifier: .stepCount) else { return }
         

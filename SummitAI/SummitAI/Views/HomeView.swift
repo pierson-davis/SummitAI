@@ -114,6 +114,19 @@ struct HomeView: View {
                 
                 Spacer()
                 
+                // Reset steps button
+                Button(action: {
+                    healthManager.resetStepsToActual()
+                    expeditionManager.resetExpeditionProgress()
+                }) {
+                    Image(systemName: "arrow.clockwise")
+                        .font(.title3)
+                        .foregroundColor(.blue)
+                        .padding(8)
+                        .background(Color.white.opacity(0.1))
+                        .cornerRadius(8)
+                }
+                
                 // Profile avatar
                 Button(action: {}) {
                     Circle()
@@ -295,9 +308,22 @@ struct HomeView: View {
             HStack(spacing: 20) {
                 // Steps
                 VStack(spacing: 8) {
-                    Image(systemName: "figure.walk")
-                        .font(.title2)
-                        .foregroundColor(.orange)
+                    HStack {
+                        Image(systemName: "figure.walk")
+                            .font(.title2)
+                            .foregroundColor(.orange)
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            healthManager.resetStepsToActual()
+                            expeditionManager.resetExpeditionProgress()
+                        }) {
+                            Image(systemName: "arrow.clockwise")
+                                .font(.caption)
+                                .foregroundColor(.blue)
+                        }
+                    }
                     
                     Text("\(healthManager.todaySteps)")
                         .font(.title2)
